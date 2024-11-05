@@ -13,10 +13,16 @@ mongoose.connect(process.env.MONGO_URI,)
     .then(() => console.log('MongoDB connected'))
     .catch((error) => console.log(error));
 
+    app.get('/', (req, res) => {
+        res.send('Welcome to the API!');
+    }); 
+
+    
 // Helper function to generate a license key
 function generateLicenseKey() {
     return crypto.randomBytes(16).toString('hex');
 }
+
 
 // Endpoint to create a license (Admin access only)
 app.post('/api/generate-license', async (req, res) => {
