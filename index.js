@@ -4,25 +4,26 @@ const mongoose = require('mongoose');
 const License = require('./models/License');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors()); // Allow all origins
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI,)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB connected'))
     .catch((error) => console.log(error));
 
-    app.get('/', (req, res) => {
-        res.send('Welcome to the API!');
-    }); 
+// Test endpoint
+app.get('/', (req, res) => {
+    res.send('Welcome to the API!');
+}); 
 
-    
 // Helper function to generate a license key
 function generateLicenseKey() {
     return crypto.randomBytes(16).toString('hex');
 }
-
 
 // Endpoint to create a license (Admin access only)
 app.post('/api/generate-license', async (req, res) => {
