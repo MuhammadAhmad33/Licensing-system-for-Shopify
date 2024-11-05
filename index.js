@@ -27,10 +27,9 @@ function generateLicenseKey() {
 
 // Endpoint to create a license (Admin access only)
 app.post('/api/generate-license', async (req, res) => {
-    const { expiryDate } = req.body;
     try {
         const key = generateLicenseKey();
-        const license = new License({ key, expiresAt: expiryDate });
+        const license = new License({ key });
         await license.save();
         res.json({ message: 'License generated successfully', key });
     } catch (error) {
@@ -51,7 +50,7 @@ app.post('/api/validate-license', async (req, res) => {
         license.storeUrl = storeUrl;
         await license.save();
 
-        const token = jwt.sign({ key: license.key, storeUrl: license.storeUrl }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ key: license.key, storeUrl: license.storeUrl }, process.env.JWT_SECRET);
 
         res.json({ valid: true, token, message: 'License activated successfully' });
     } catch (error) {

@@ -4,7 +4,6 @@ const licenseSchema = new mongoose.Schema({
     key: { type: String, unique: true, required: true },
     storeUrl: { type: String, default: null },
     activated: { type: Boolean, default: false },
-    expiresAt: { type: Date, required: true },
     createdAt: { type: Date, default: Date.now }
 });
 
